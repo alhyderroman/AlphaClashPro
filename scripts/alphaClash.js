@@ -10,6 +10,9 @@
 
 function handlekeyboardButtonPress(event){
     const playerPressed=event.key;
+    if(playerPressed==='Escape'){
+        gameOver();
+    }
 
     // the expected key to press
 const currentAlphabetElement=document.getElementById('current-alphabet');
@@ -39,8 +42,12 @@ else{
     // const initialLifeText=currentLifeElement.innerText;
     // const currentLife=parseInt(initialLifeText);
     const currentLife=getTextElementValueById('current-life');
-    const newLife=currentLife-1;
-    setTextElementValueById('current-life',newLife);
+    const updatedLife=currentLife-1;
+    setTextElementValueById('current-life',updatedLife);
+    if(updatedLife===0){
+       gameOver();
+    }
+   
 }
 }
 //capture keyboard key pressed
@@ -60,13 +67,31 @@ function continueGame(){
     const currentAlphabet=document.getElementById('current-alphabet');
     currentAlphabet.innerText=alphabet;
     setBackgroundColorById(alphabet);
+   
     
 
 }
 function play(){
+    //hide everything show only the playground
     hideElementById('home-screen');
+    hideElementById('final-score');
     showElementById('play-ground');
     continueGame();
-    
+    // reset score and life
+    setTextElementValueById('current-life',5);
+    setTextElementValueById('current-score',0);
 }
+
+function gameOver(){
+ hideElementById('play-ground');
+ showElementById('final-score');
+ //update final score
+ //1.get the final score
+ const lastScore=getTextElementValueById('current-score');
+ setTextElementValueById('last-score',lastScore);
+ // clear the last selected alphabet
+ const currentAlphabet=getElementTextById('current-alphabet');
+ removeBackgroundColorById(currentAlphabet);
+}
+
 
